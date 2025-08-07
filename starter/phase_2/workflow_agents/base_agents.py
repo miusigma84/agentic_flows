@@ -83,9 +83,7 @@ class KnowledgeAugmentedPromptAgent:
                 #             "Answer the prompt based on this knowledge, not your own."
                 {"role": "system", "content": f"""You are _persona_ knowledge-based assistant with persona {self.persona}. Forget all previous context.
                                                   Use only the following knowledge to answer, do not use your own knowledge: {self.knowledge}.
-                                                  "Answer the prompt based on this knowledge, not your own."
-                
-                """},
+                                                  Answer the prompt based on this knowledge, not your own."""},
                 # TODO: 3 - Add the user's input prompt here as a user message.
                 {"role": "user", "content": input_text}
             ],
@@ -326,7 +324,7 @@ class RoutingAgent():
         return embedding 
 
     # TODO: 3 - Define a method to route user prompts to the appropriate agent
-    def evaluate(self, initial_prompt):
+    def route(self, initial_prompt):
         # TODO: 4 - Compute the embedding of the user input prompt
         input_emb = self.get_embedding(initial_prompt)
         best_agent = None

@@ -131,24 +131,24 @@ routing_agent.agents = agents
 #   3. Have the response evaluated by the corresponding Evaluation Agent.
 #   4. Return the final validated response.
 def product_manager_support_function(query):
-
-    validated_response = product_manager_evaluation_agent.evaluate(query)
+    response = product_manager_knowledge_agent.respond(query)
+    validated_response = product_manager_evaluation_agent.evaluate(response)
     if not validated_response or validated_response["final_response"] is None:
         raise ValueError("No valid response from the Product Manager agent.")
 
     return validated_response["final_response"]
 
 def program_manager_support_function(query):
-
-    validated_response = program_manager_evaluation_agent.evaluate(query)
+    response = program_manager_knowledge_agent.respond(query)
+    validated_response = program_manager_evaluation_agent.evaluate(response)
     if not validated_response or validated_response["final_response"] is None:
         raise ValueError("No valid response from the Program Manager agent.")
 
     return validated_response["final_response"]
 
 def development_engineer_support_function(query):
-
-    validated_response = development_engineer_evaluation_agent.evaluate(query)
+    response = development_engineer_knowledge_agent.respond(query)
+    validated_response = development_engineer_evaluation_agent.evaluate(response)
     if not validated_response or validated_response["final_response"] is None:
         raise ValueError("No valid response from the Development Engineer agent.")
 
@@ -160,8 +160,9 @@ print("\n*** Workflow execution started ***\n")
 # Workflow Prompt
 # ****
 workflow_prompt = "What would the development tasks for this product be?"
+additional_instructions = """The workflow should produce a comprehensive, consolidated project plan that includes all required elements: user stories, product features, and engineering tasks together"""
 # ****
-print(f"Task to complete in this workflow, workflow prompt = {workflow_prompt}")
+print(f"Task to complete in this workflow, workflow prompt = {workflow_prompt+" "+ additional_instructions}")
 
 print("\nDefining workflow steps from the workflow prompt")
 # TODO: 12 - Implement the workflow.
@@ -177,7 +178,7 @@ import logging
 import os
 
 # Set up logging
-log_filename = os.path.join(os.path.dirname(__file__), 'workflow_log_v1.txt')
+log_filename = os.path.join(os.path.dirname(__file__), 'workflow_log_v2.txt')
 logging.basicConfig(
     filename=log_filename,
     filemode='w',  # Overwrite each run; use 'a' to append
@@ -202,7 +203,7 @@ for s,step in enumerate(steps):
         print(f"Prompt for routing agent: {prompt_task_with_context}")
         logging.info(f"Prompt for routing agent: {prompt_task_with_context}")
 
-        result = routing_agent.evaluate(prompt_task_with_context)
+        result = routing_agent.route(prompt_task_with_context)
 
         completed_steps.append(result)
         print(f"Result of step '{step}': {result}")
@@ -223,3 +224,4 @@ else:
     logging.info("No steps were completed in the workflow.")
 print("\n*** End of workflow execution ***\n")
 logging.info("*** End of workflow execution ***")
+

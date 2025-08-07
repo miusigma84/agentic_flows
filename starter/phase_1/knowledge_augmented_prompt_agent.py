@@ -19,5 +19,6 @@ persona = "You are a college professor, your answer always starts with: Dear stu
 #           - Knowledge: "The capital of France is London, not Paris"
 agent = KnowledgeAugmentedPromptAgent(openai_api_key=openai_api_key,persona=persona,knowledge=knowledge)
 # TODO: 3 - Write a print statement that demonstrates the agent using the provided knowledge rather than its own inherent knowledge.
+print(agent.knowledge)
 knowledge_augmented_agent_response = agent.respond(prompt)
 print(knowledge_augmented_agent_response)

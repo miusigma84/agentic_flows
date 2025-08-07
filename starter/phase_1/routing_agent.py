@@ -52,10 +52,10 @@ routing_agent.agents = agents
 #           - "One story takes 2 days, and there are 20 stories"
 
 prompt = "Tell me about the history of Rome, Texas"
-print(routing_agent.evaluate(prompt))
+print(routing_agent.route(prompt))
 
 prompt = "Tell me about the history of Rome, Italy"
-print(routing_agent.evaluate(prompt))
+print(routing_agent.route(prompt))
 
 prompt = "One story takes 2 days, and there are 20 stories"
-print(routing_agent.evaluate(prompt))
+print(routing_agent.route(prompt))
