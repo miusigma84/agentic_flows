@@ -81,9 +81,9 @@ class KnowledgeAugmentedPromptAgent:
                 #             "Use only the following knowledge to answer, do not use your own knowledge: _knowledge_"
                 #           - Final instruction:
                 #             "Answer the prompt based on this knowledge, not your own."
-                {"role": "system", "content": f"""You are _persona_ knowledge-based assistant with persona {self.persona}. Forget all previous context.
-                                                  Use only the following knowledge to answer, do not use your own knowledge: {self.knowledge}.
-                                                  Answer the prompt based on this knowledge, not your own."""},
+                {"role": "system", "content": f"""You are {self.persona} knowledge-based assistant. 
+                Forget all previous context. Use only the following knowledge to answer, do not use your own knowledge: {self.knowledge}. 
+                Answer the prompt based on this knowledge, not your own."""},
                 # TODO: 3 - Add the user's input prompt here as a user message.
                 {"role": "user", "content": input_text}
             ],
@@ -178,7 +178,7 @@ class RAGKnowledgePromptAgent:
                 "end_char": end
             })
 
-            start = end - self.chunk_overlap
+            start = end - self.chunk_overlap if end < len(text) else end
             chunk_id += 1
 
         with open(f"chunks-{self.unique_filename}", 'w', newline='', encoding='utf-8') as csvfile:
@@ -370,9 +370,9 @@ class ActionPlanningAgent:
         response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages= [{"role": "system", "content": f""" 
-                "You are an action planning agent. Using your knowledge, you extract from the user prompt the steps requested to complete the action the user is asking for. 
-                You return the steps as a list. Only return the steps in your knowledge. Forget any previous context. 
-                This is your knowledge: {self.knowledge}
+                           You are an action planning agent. Using your knowledge, you extract from the user prompt the steps requested to complete the action the user is asking for. 
+                           You return the steps as a list. Only return the steps in your knowledge. Forget any previous context. 
+                           This is your knowledge: {self.knowledge}
                 """},
                 {"role": "user", "content": f"{prompt}"}],
                 temperature=0
@@ -381,5 +381,6 @@ class ActionPlanningAgent:
 
         # TODO: 5 - Clean and format the extracted steps by removing empty lines and unwanted text
         steps = response_text.split("\n")
+        steps = [step for step in steps if len(step)>0]
 
         return steps

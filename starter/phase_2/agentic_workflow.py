@@ -178,7 +178,7 @@ import logging
 import os
 
 # Set up logging
-log_filename = os.path.join(os.path.dirname(__file__), 'workflow_log_v2.txt')
+log_filename = os.path.join(os.path.dirname(__file__), 'workflow_log_v4.txt')
 logging.basicConfig(
     filename=log_filename,
     filemode='w',  # Overwrite each run; use 'a' to append
