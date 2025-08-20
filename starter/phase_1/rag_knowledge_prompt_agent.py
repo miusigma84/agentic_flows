@@ -10,7 +10,7 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 persona = "You are a college professor, your answer always starts with: Dear students,"
-RAG_knowledge_prompt_agent = RAGKnowledgePromptAgent(openai_api_key,persona,chunk_size=20,chunk_overlap=10)# TODO: 2 - Instantiate RAGKnowledgePromptAgent
+RAG_knowledge_prompt_agent = RAGKnowledgePromptAgent(openai_api_key,persona)# TODO: 2 - Instantiate RAGKnowledgePromptAgent
 
 knowledge_text = """
 In the historic city of Boston, Clara, a marine biologist and science communicator, began each morning analyzing sonar data to track whale migration patterns along the Atlantic coast.
@@ -42,10 +42,13 @@ The story sparked a conversation about ancient navigation, space weather interfe
 To Clara, knowledge was a living system—retrieved from the past, generated in the present, and evolving toward the future.
 Her life and work were testaments to the power of connecting across disciplines, borders, and generations—exactly the kind of story that RAG models were born to find.
 """
-
+import time
+time.sleep(5)
 chunks = RAG_knowledge_prompt_agent.chunk_text(knowledge_text) # TODO: 3 - Compute the knowledge_text the chunks
+time.sleep(6)
 embbedings = RAG_knowledge_prompt_agent.calculate_embeddings() # TODO: 4 - Compute the knowledge_text the chunk embbedings
-
+time.sleep(6)
 prompt = "What is the podcast that Clara hosts about?"
 # TODO: 5 - Print the prompt and the response
+print(prompt)
 print(RAG_knowledge_prompt_agent.find_prompt_in_knowledge(prompt))
